@@ -4,18 +4,17 @@ $password = 'changeme';
 $raw = file_get_contents("php://input");
 $request = json_decode($raw, true);
 
-function set($k, $v) {
+function set($k, $v = null) {
   session_start();
-  $_SESSION[$k] = $v;
+  if(!is_null($v)) {
+    $_SESSION[$k] = $v;
+  }
   session_write_close();
-  return $v;
+  return $_SESSION[$k];
 }
 
 function get($k) {
-  session_start();
-  $v = $_SESSION[$k];
-  session_write_close();
-  return $v;
+  return set($k);
 }
 
 function res($res, $data = '') {
